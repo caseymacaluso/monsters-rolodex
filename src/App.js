@@ -1,6 +1,6 @@
 import { Component } from "react";
 
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
@@ -8,28 +8,45 @@ class App extends Component {
     super();
     this.state = {
       monsters: [],
+      searchField: "",
     };
+    console.log("constructor");
   }
 
   componentDidMount() {
+    console.log("componentDidMount");
     fetch("https://jsonplaceholder.typicode.com/users")
       .then(response => response.json())
       .then(users =>
-        this.setState(
-          () => {
-            return { monsters: users };
-          },
-          () => {
-            console.log(this.state);
-          }
-        )
+        this.setState(() => {
+          return { monsters: users };
+        })
       );
   }
 
   render() {
+    console.log("render");
+
+    const filteredMonsters = this.state.monsters.filter(monster => {
+      return monster.name
+        .toLowerCase()
+        .includes(this.state.searchField.toLowerCase());
+    });
+
     return (
       <div className="App">
-        {this.state.monsters.map(monster => {
+        <input
+          className="search"
+          type="search"
+          placeholder="search monsters"
+          onChange={evt => {
+            const searchField = evt.target.value.toLowerCase();
+            this.setState(() => {
+              return { searchField };
+            });
+          }}
+        />
+        {filteredMonsters.map(monster => {
           return (
             <div key={monster.id}>
               <h1>{monster.name}</h1>
