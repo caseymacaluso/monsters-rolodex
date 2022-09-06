@@ -1,4 +1,5 @@
 import { Component } from "react";
+import CardList from "./components/card-list/card-list.component";
 
 // import logo from "./logo.svg";
 import "./App.css";
@@ -12,14 +13,12 @@ class App extends Component {
       monsters: [],
       searchField: "",
     };
-    console.log("constructor");
   }
 
   // Lifecycle method
   // Fetches data the moment the App component is 'mounted' on the DOM, i.e. rendered
   // Runs after the render() method
   componentDidMount() {
-    console.log("componentDidMount");
     // API call, parses to JSON, then sets the value of monsters to the parsed information
     fetch("https://jsonplaceholder.typicode.com/users")
       .then(response => response.json())
@@ -38,10 +37,8 @@ class App extends Component {
     });
   };
 
+  // render runs after the constructor
   render() {
-    // render runs after the constructor
-    console.log("render");
-
     // Pulling state variables & functions from 'this';
     const { monsters, searchField } = this.state;
     const { onSearchChange } = this;
@@ -59,13 +56,7 @@ class App extends Component {
           placeholder="search monsters"
           onChange={onSearchChange}
         />
-        {filteredMonsters.map(monster => {
-          return (
-            <div key={monster.id}>
-              <h1>{monster.name}</h1>
-            </div>
-          );
-        })}
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
