@@ -2,8 +2,8 @@
 import "./card.styles.css";
 
 //FUNCTION-BASED APPROACH
-const Card = props => {
-  const { name, email, id } = props.monster;
+const Card = ({ monster }) => {
+  const { name, email, id } = monster;
   return (
     <div className="card-container">
       <img
